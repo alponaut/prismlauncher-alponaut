@@ -6,6 +6,9 @@ license: GPL-3.0
 contact: https://github.com/alponaut/prismlauncher-alponaut/issues
 issues: https://github.com/alponaut/prismlauncher-alponaut/issues
 website: https://prismlauncher.org/
+platforms:
+  amd64:
+  arm64:
 description: |
   (This snap is unofficial. Submit issues here https://github.com/alponaut/prismlauncher-alponaut/issues)
 
