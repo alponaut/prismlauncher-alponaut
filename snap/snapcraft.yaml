@@ -1,0 +1,70 @@
+name: prismlauncher
+base: core24
+version: '9.4'
+summary: An open source custom launcher for Minecraft
+license: GPL-3.0
+description: |
+  An open source Minecraft launcher with the ability to manage multiple instances, accounts and mods. Focused on user freedom and free redistributability.
+
+grade: stable
+confinement: strict
+
+plugs:
+  prismdata:
+    interface: personal-files
+    write:
+      - $HOME/.local/share
+
+parts:
+  prismlauncher:
+    source: https://github.com/PrismLauncher/PrismLauncher.git
+    plugin: cmake
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX="/usr"
+      - -DENABLE_LTO=ON
+      - -DQT_MAJOR_VERSION=6
+      - -DBUILD_TESTING=OFF
+      - -DCMAKE_INSTALL_LIBDIR=lib
+    override-pull: |
+      craftctl default
+      cd $CRAFT_PART_SRC
+      git reset --hard 385bb500b9195765a6e6fb5c81855b24eb48bf91
+      git submodule update --init --recursive || true
+      if [ ! -d libraries/filesystem ]; then
+        git clone https://github.com/gulrak/filesystem.git libraries/filesystem
+      fi
+    build-packages:
+      - ninja-build
+      - extra-cmake-modules
+      - zlib1g-dev
+      - openjdk-17-jdk
+      - libgl1-mesa-dev
+    stage-packages:
+      - openjdk-8-jre
+      - openjdk-17-jre
+      - openjdk-21-jre
+
+  gpu-2404:
+    after: [prismlauncher]
+    source: https://github.com/canonical/gpu-snap.git
+    plugin: dump
+    override-prime: |
+      ${CRAFT_PART_SRC}/bin/gpu-2404-cleanup mesa-2404
+      mkdir -p "${CRAFT_PRIME}/gpu-2404"
+    prime:
+      - bin/gpu-2404-wrapper
+
+apps:
+  prismlauncher:
+    extensions:
+      - kde-neon-6
+    command: usr/bin/prismlauncher
+    desktop: meta/gui/prismlauncher.desktop
+    plugs:
+      - browser-support
+      - home
+      - prismdata
+      - removable-media
+      - joystick
+
