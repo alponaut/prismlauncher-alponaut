@@ -1,9 +1,14 @@
-name: prismlauncher
+name: prismlauncher-alponaut
 base: core24
 version: '9.4'
-summary: An open source custom launcher for Minecraft
+summary: A custom Minecraft launcher
 license: GPL-3.0
+contact: https://github.com/alponaut/prismlauncher-alponaut/issues
+issues: https://github.com/alponaut/prismlauncher-alponaut/issues
+website: https://prismlauncher.org/
 description: |
+  (This snap is unofficial. Submit issues here https://github.com/alponaut/prismlauncher-alponaut/issues)
+
   An open source Minecraft launcher with the ability to manage multiple instances, accounts and mods. Focused on user freedom and free redistributability.
 
 grade: stable
@@ -54,6 +59,17 @@ parts:
       mkdir -p "${CRAFT_PRIME}/gpu-2404"
     prime:
       - bin/gpu-2404-wrapper
+
+  cleanup:
+    after: 
+      - prismlauncher
+    plugin: nil
+    build-snaps: [core24, kf6-core24]
+    override-prime: |
+      set -eux
+      for snap in "core24" "kf6-core24"; do
+        cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
+      done
 
 apps:
   prismlauncher:
