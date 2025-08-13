@@ -11,9 +11,9 @@ platforms:
 description: |
   (This snap is unofficial. Submit issues here https://github.com/alponaut/prismlauncher-alponaut/issues)
 
-  "Prism Launcher is a custom launcher for Minecraft that focuses on predictability, long term stability and simplicity.
+  Prism Launcher is a custom launcher for Minecraft that focuses on predictability, long term stability and simplicity.
 
-  Features:
+  Features
 
   * Easily install game modifications, such as Fabric, Forge and Quilt
   * Easily install and update modpacks from the Launcher
@@ -23,7 +23,7 @@ description: |
   * Isolate Minecraft instances to keep everything clean
   * Install and update mods directly from the launcher
   * Customize the launcher with themes, and more
-  * And cat :3"
+  * And cat :3
 
 
 grade: stable
