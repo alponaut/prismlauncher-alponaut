@@ -29,12 +29,6 @@ description: |
 grade: stable
 confinement: strict
 
-plugs:
-  prismdata:
-    interface: personal-files
-    write:
-      - $HOME/.local/share
-
 parts:
   prismlauncher:
     source: https://github.com/PrismLauncher/PrismLauncher.git
@@ -64,7 +58,7 @@ parts:
       - openjdk-8-jre
       - openjdk-17-jre
       - openjdk-21-jre
-
+  
   gpu-2404:
     after: [prismlauncher]
     source: https://github.com/canonical/gpu-snap.git
@@ -95,7 +89,6 @@ apps:
     plugs:
       - browser-support
       - home
-      - prismdata
       - removable-media
       - joystick
 
